@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Супер мега крутой сайт для моей любимой Поли</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <section id="screen-password" class="screen active">
+      <h2 style="margin-bottom: 20px; text-align: center">
+        Привет, Поля! Введи пароль:
+      </h2>
+      <div class="password-container">
+        <input
+          type="text"
+          id="password-input"
+          class="password-input"
+          placeholder=" "
+          maxlength="10"
+        />
+        <div class="password-placeholder">дд.мм.гггг</div>
+      </div>
+      <button id="btn-submit-password" class="btn" style="margin-top: 25px">
+       Войти
+      </button>
+    </section>
+
+    <section id="screen-virus" class="screen">
+      <div class="virus-box">
+        <div class="virus-title">⚠️ Внимание! ⚠️</div>
+        <p>Обнаружена критическая угроза безопасности системы устройства.</p>
+        <p style="margin-top: 10px; font-size: 0.9rem; color: #d30a18">
+          В вас летит шохид
+        </p>
+        <div class="virus-btns">
+          <button id="btn-virus-exit" class="btn btn-virus">Выйти</button>
+          <button id="btn-virus-continue" class="btn btn-virus">
+            Продолжить
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="screen-no-trust" class="screen">
+      <img src="photo_grustniy.jpg" alt="Моё грустное, но незагрузившееся, фото" class="author-photo" />
+      <div class="reaction-text">Ты мне не доверяешь... 🥺</div>
+      <button id="btn-back-from-sad" class="btn">Исправиться</button>
+    </section>
+
+    <section id="screen-trust" class="screen">
+      <img src="photo_veseliy.jpg" alt="Моё весёлое, но незагрузившееся, фото" class="author-photo" />
+      <div class="reaction-text">Спасибо, любовь моя, за доверие! 🥰</div>
+      <button id="btn-go-to-menu" class="btn">Открыть меню</button>
+    </section>
+
+    <section id="screen-menu" class="screen">
+      <h2 style="margin-bottom: 30px; text-align: center">
+        Я очень тебя люблю Поля
+      </h2>
+      
+      <!-- СЧЕТЧИК ДНЕЙ -->
+      <div style="
+        background: linear-gradient(135deg, #ff4d6d, #ff758f);
+        color: white;
+        padding: 20px 30px;
+        border-radius: 20px;
+        margin-bottom: 30px;
+        text-align: center;
+        box-shadow: var(--shadow);
+        width: 100%;
+        max-width: 280px;
+      ">
+        <div style="font-size: 0.9rem; opacity: 0.9;">Мы вместе уже</div>
+        <div id="days-counter" style="font-size: 3rem; font-weight: bold; line-height: 1.2;">
+          0
+        </div>
+        <div style="font-size: 1rem;">дней ❤️</div>
+      </div>
+      
+      <div class="menu-container">
+        <button id="nav-gallery" class="btn">📸 Галерея</button>
+        <button id="nav-moments" class="btn">📝 Моменты</button>
+        <button id="nav-surprise" class="btn">🎁 Сюрприз</button>
+      </div>
+    </section>
+
+    <section id="screen-gallery" class="screen">
+      <button class="btn btn-back to-menu">← Меню</button>
+      <h2>Наша галерея 📸</h2>
+      <p style="margin-bottom: 20px; font-size: 0.9rem; text-align: center">
+        Фотки сохраняются и не пропадут!
+      </p>
+      <div class="gallery-wrapper">
+        <div id="gallery-grid" class="gallery-grid"></div>
+        <label class="upload-zone">
+          <span>➕ Нажми, чтобы добавить фото</span>
+          <input type="file" id="gallery-upload" accept="image/*" multiple />
+        </label>
+        
+        <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; justify-content: center;">
+          <button onclick="exportGallery()" class="btn" style="background: #6c757d; font-size: 0.9rem; padding: 10px 20px;">
+            💾 Сохранить все фото
+          </button>
+          <button onclick="importGallery()" class="btn" style="background: #6c757d; font-size: 0.9rem; padding: 10px 20px;">
+            📂 Загрузить фото
+          </button>
+          <button onclick="clearGallery()" class="btn" style="background: #dc3545; font-size: 0.9rem; padding: 10px 20px;">
+            🗑️ Очистить галерею
+          </button>
+        </div>
+        <p style="font-size: 0.8rem; color: #999; margin-top: 10px; text-align: center;">
+          💡 Добавила фото? Скажи своему любимому, ему надо обновить кое что
+        </p>
+      </div>
+    </section>
+
+    <section id="screen-moments" class="screen">
+      <button class="btn btn-back to-menu">← Меню</button>
+      <h2>Наши моменты 📝</h2>
+      <div class="moments-wrapper">
+        <div id="moments-list" class="moments-list">
+          <div class="moment-card">
+            «Помнишь, как мы бежали к тебе под дождем?» — Твой Любимый
+          </div>
+        </div>
+        <div class="moment-input-box">
+          <textarea
+            id="moment-textarea"
+            class="moment-textarea"
+            placeholder="Напиши сюда приятное воспоминание или цитату..."
+          ></textarea>
+          <button id="btn-add-moment" class="btn">Записать в историю</button>
+        </div>
+        
+        <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; justify-content: center;">
+          <button onclick="exportMoments()" class="btn" style="background: #6c757d; font-size: 0.9rem; padding: 10px 20px;">
+            💾 Сохранить все моменты
+          </button>
+          <button onclick="importMoments()" class="btn" style="background: #6c757d; font-size: 0.9rem; padding: 10px 20px;">
+            📂 Загрузить моменты
+          </button>
+          <button onclick="clearMoments()" class="btn" style="background: #dc3545; font-size: 0.9rem; padding: 10px 20px;">
+            🗑️ Очистить моменты
+          </button>
+        </div>
+        <p style="font-size: 0.8rem; color: #999; margin-top: 10px; text-align: center;">
+          💡 Добавила момент? Скажи своему любимому, ему надо обновить кое что
+        </p>
+      </div>
+    </section>
+
+    <section id="screen-surprise" class="screen surprise-screen">
+        <button class="btn btn-back to-menu" style="z-index: 10; background-color: var(--accent-color);">← В меню</button>
+        <div id="heart-canvas" class="heart-canvas">
+            <div id="scratch-ticket" class="scratch-ticket">
+                <div class="scratched-content">
+                    <p>Моя любимая Поля!</p>
+                    <p style="font-size: 1.5rem; margin: 15px 0;">Ты — самая лучшая. Спасибо за этот год и все что ты сделала для меня </p>
+                    <p>Этот сайт я сделал только для тебя. Хочу, чтобы ты знала: ты — моя самая яркая звезда в этом небе. Люблю тебя безумно! </p>
+                </div>
+                <canvas id="scratch-layer"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>
