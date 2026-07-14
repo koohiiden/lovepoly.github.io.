@@ -1,6 +1,5 @@
 const CORRECT_PASSWORD = "18.07.2025";
 
-
 const DEFAULT_MOMENTS = [
     'Помнишь наш первый медляк? Когда мы стояли на вытянутых руках и не понимали зачем это все?',
     'Помнишь как нас шиперили, а мы крутили факи стоя в обнимку на очередном медляке и говорили "Мы просто друзья на смену"?',
@@ -27,7 +26,6 @@ function initDefaultData() {
     }
 }
 
-
 function updateDaysCounter() {
     const startDate = new Date(2025, 6, 18);
     const today = new Date();
@@ -51,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
     renderMoments();
 });
 
-
 function showScreen(screenId) {
     document.querySelectorAll('.screen').forEach(screen => {
         screen.classList.remove('active');
@@ -63,14 +60,12 @@ function showScreen(screenId) {
     }
 }
 
-
 document.querySelectorAll('.to-menu').forEach(btn => {
     btn.addEventListener('click', () => {
         showScreen('screen-menu');
         updateDaysCounter();
     });
 });
-
 
 const passwordInput = document.getElementById('password-input');
 const btnSubmitPassword = document.getElementById('btn-submit-password');
@@ -98,7 +93,6 @@ if (btnSubmitPassword) {
     });
 }
 
-
 document.getElementById('btn-virus-exit')?.addEventListener('click', () => {
     showScreen('screen-no-trust');
 });
@@ -115,7 +109,6 @@ document.getElementById('btn-go-to-menu')?.addEventListener('click', () => {
     showScreen('screen-menu');
 });
 
-// ===== НАВИГАЦИЯ МЕНЮ =====
 document.getElementById('nav-gallery')?.addEventListener('click', () => {
     showScreen('screen-gallery');
     renderGallery();
@@ -130,7 +123,6 @@ document.getElementById('nav-surprise')?.addEventListener('click', () => {
     showScreen('screen-surprise');
     setTimeout(initHeartAnimation, 50);
 });
-
 
 const galleryUpload = document.getElementById('gallery-upload');
 const galleryGrid = document.getElementById('gallery-grid');
@@ -203,12 +195,43 @@ function renderGallery() {
         return;
     }
     
-    images.forEach((imgData) => {
+
+    const visibleImages = images.slice(0, 20);
+    const hiddenImages = images.slice(20);
+    
+    visibleImages.forEach((imgData) => {
         const item = document.createElement('div');
         item.className = 'gallery-item';
-        item.innerHTML = `<img src="${imgData}" alt="Наше фото">`;
+        item.innerHTML = `<img src="${imgData}" alt="Наше фото" loading="lazy">`;
         galleryGrid.appendChild(item);
     });
+    
+  
+    if (hiddenImages.length > 0) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const container = entry.target;
+                    const index = parseInt(container.dataset.index);
+                    if (index < hiddenImages.length) {
+                        const img = container.querySelector('img');
+                        img.src = hiddenImages[index];
+                        container.dataset.loaded = 'true';
+                    }
+                }
+            });
+        });
+        
+
+        hiddenImages.forEach((_, index) => {
+            const item = document.createElement('div');
+            item.className = 'gallery-item';
+            item.dataset.index = index;
+            item.innerHTML = `<img src="" alt="Наше фото" loading="lazy" style="background: #f0f0f0;">`;
+            galleryGrid.appendChild(item);
+            observer.observe(item);
+        });
+    }
 }
 
 window.exportGallery = function() {
@@ -282,7 +305,6 @@ window.clearGallery = function() {
         }
     }
 }
-
 
 const momentTextarea = document.getElementById('moment-textarea');
 const btnAddMoment = document.getElementById('btn-add-moment');
@@ -398,7 +420,6 @@ window.clearMoments = function() {
     }
 }
 
-
 function showToast(message) {
     const toast = document.createElement('div');
     toast.textContent = message;
@@ -436,7 +457,6 @@ function showToast(message) {
         setTimeout(() => toast.remove(), 300);
     }, 2500);
 }
-
 
 function initHeartAnimation() {
     const canvas = document.getElementById('heart-canvas');
@@ -558,4 +578,3 @@ function initHeartAnimation() {
     canvas.addEventListener('touchmove', handleMove, { passive: false });
     window.addEventListener('touchend', handleEnd);
 }
-
