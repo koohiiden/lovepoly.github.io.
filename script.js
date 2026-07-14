@@ -3,19 +3,17 @@ const CORRECT_PASSWORD = "18.07.2025";
 
 const DEFAULT_MOMENTS = [
     'Помнишь наш первый медляк? Когда мы стояли на вытянутых руках и не понимали зачем это все?',
-    'Помнишь как нас ишптерили, а мы крутили факи стоя в обнимку на очередном медляке и говорили "Мы просто друзья на смену"?',
+    'Помнишь как нас шиперили, а мы крутили факи стоя в обнимку на очередном медляке и говорили "Мы просто друзья на смену"?',
     'Ты первая предложила поцеловать меня',
     'Помнишь как мы бежали к тебе под дождем а потом я наколдовал букетик цветов?',
     'Помнишь как ты играла в грени, а я засыпал у тебя на плече?',
     'Я пишу это, а время 3.40, скоро рассвет'
 ];
 
-
 function initDefaultData() {
     let gallery = JSON.parse(localStorage.getItem('poly_gallery')) || [];
     let moments = JSON.parse(localStorage.getItem('poly_moments')) || [];
     
-  
     if (gallery.length === 0) {
         const defaultGallery = [];
         for (let i = 1; i <= 55; i++) {
@@ -24,7 +22,6 @@ function initDefaultData() {
         localStorage.setItem('poly_gallery', JSON.stringify(defaultGallery));
     }
     
-  
     if (moments.length === 0) {
         localStorage.setItem('poly_moments', JSON.stringify(DEFAULT_MOMENTS));
     }
@@ -54,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderMoments();
 });
 
+
 function showScreen(screenId) {
     document.querySelectorAll('.screen').forEach(screen => {
         screen.classList.remove('active');
@@ -65,12 +63,14 @@ function showScreen(screenId) {
     }
 }
 
+
 document.querySelectorAll('.to-menu').forEach(btn => {
     btn.addEventListener('click', () => {
         showScreen('screen-menu');
         updateDaysCounter();
     });
 });
+
 
 const passwordInput = document.getElementById('password-input');
 const btnSubmitPassword = document.getElementById('btn-submit-password');
@@ -98,6 +98,7 @@ if (btnSubmitPassword) {
     });
 }
 
+
 document.getElementById('btn-virus-exit')?.addEventListener('click', () => {
     showScreen('screen-no-trust');
 });
@@ -114,6 +115,7 @@ document.getElementById('btn-go-to-menu')?.addEventListener('click', () => {
     showScreen('screen-menu');
 });
 
+// ===== НАВИГАЦИЯ МЕНЮ =====
 document.getElementById('nav-gallery')?.addEventListener('click', () => {
     showScreen('screen-gallery');
     renderGallery();
@@ -556,3 +558,4 @@ function initHeartAnimation() {
     canvas.addEventListener('touchmove', handleMove, { passive: false });
     window.addEventListener('touchend', handleEnd);
 }
+
