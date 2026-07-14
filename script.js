@@ -195,43 +195,31 @@ function renderGallery() {
         return;
     }
     
-
-    const visibleImages = images.slice(0, 20);
-    const hiddenImages = images.slice(20);
-    
-    visibleImages.forEach((imgData) => {
+    // Загружаем ВСЕ фото, но с ленивой загрузкой
+    images.forEach((imgData, index) => {
         const item = document.createElement('div');
         item.className = 'gallery-item';
-        item.innerHTML = `<img src="${imgData}" alt="Наше фото" loading="lazy">`;
+        
+        // Для первых 20 фото грузим сразу, для остальных - отложенная загрузка
+        if (index < 20) {
+            item.innerHTML = `<img src="${imgData}" alt="Наше фото" loading="lazy">`;
+        } else {
+            item.innerHTML = `<img src="${imgData}" alt="Наше фото" loading="lazy" style="background: #f0f0f0;">`;
+            // Добавляем отложенную загрузку с помощью Intersection Observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target.querySelector('img');
+                        img.src = imgData;
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+            observer.observe(item);
+        }
+        
         galleryGrid.appendChild(item);
     });
-    
-  
-    if (hiddenImages.length > 0) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const container = entry.target;
-                    const index = parseInt(container.dataset.index);
-                    if (index < hiddenImages.length) {
-                        const img = container.querySelector('img');
-                        img.src = hiddenImages[index];
-                        container.dataset.loaded = 'true';
-                    }
-                }
-            });
-        });
-        
-
-        hiddenImages.forEach((_, index) => {
-            const item = document.createElement('div');
-            item.className = 'gallery-item';
-            item.dataset.index = index;
-            item.innerHTML = `<img src="" alt="Наше фото" loading="lazy" style="background: #f0f0f0;">`;
-            galleryGrid.appendChild(item);
-            observer.observe(item);
-        });
-    }
 }
 
 window.exportGallery = function() {
