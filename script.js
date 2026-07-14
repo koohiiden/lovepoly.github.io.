@@ -1,20 +1,21 @@
 const CORRECT_PASSWORD = "18.07.2025";
 
-// ===== СТАРТОВЫЕ ДАННЫЕ =====
+
 const DEFAULT_MOMENTS = [
-    'Помнишь как мы бежали к тебе под дождем а потом я наколдовал букетик цветов?',
     'Помнишь наш первый медляк? Когда мы стояли на вытянутых руках и не понимали зачем это все?',
     'Помнишь как нас ишптерили, а мы крутили факи стоя в обнимку на очередном медляке и говорили "Мы просто друзья на смену"?',
     'Ты первая предложила поцеловать меня',
+    'Помнишь как мы бежали к тебе под дождем а потом я наколдовал букетик цветов?',
+    'Помнишь как ты играла в грени, а я засыпал у тебя на плече?',
     'Я пишу это, а время 3.40, скоро рассвет'
 ];
 
-// Функция для загрузки стартовых данных
+
 function initDefaultData() {
     let gallery = JSON.parse(localStorage.getItem('poly_gallery')) || [];
     let moments = JSON.parse(localStorage.getItem('poly_moments')) || [];
     
-    // Если галерея пуста - генерируем 55 фото
+  
     if (gallery.length === 0) {
         const defaultGallery = [];
         for (let i = 1; i <= 55; i++) {
@@ -23,13 +24,13 @@ function initDefaultData() {
         localStorage.setItem('poly_gallery', JSON.stringify(defaultGallery));
     }
     
-    // Если моменты пусты - добавляем стартовые
+  
     if (moments.length === 0) {
         localStorage.setItem('poly_moments', JSON.stringify(DEFAULT_MOMENTS));
     }
 }
 
-// ===== СЧЕТЧИК ДНЕЙ =====
+
 function updateDaysCounter() {
     const startDate = new Date(2025, 6, 18);
     const today = new Date();
@@ -128,7 +129,7 @@ document.getElementById('nav-surprise')?.addEventListener('click', () => {
     setTimeout(initHeartAnimation, 50);
 });
 
-// ===== ГАЛЕРЕЯ =====
+
 const galleryUpload = document.getElementById('gallery-upload');
 const galleryGrid = document.getElementById('gallery-grid');
 
@@ -280,7 +281,7 @@ window.clearGallery = function() {
     }
 }
 
-// ===== МОМЕНТЫ =====
+
 const momentTextarea = document.getElementById('moment-textarea');
 const btnAddMoment = document.getElementById('btn-add-moment');
 const momentsList = document.getElementById('moments-list');
@@ -395,7 +396,7 @@ window.clearMoments = function() {
     }
 }
 
-// ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
+
 function showToast(message) {
     const toast = document.createElement('div');
     toast.textContent = message;
@@ -434,7 +435,7 @@ function showToast(message) {
     }, 2500);
 }
 
-// ===== СЮРПРИЗ =====
+
 function initHeartAnimation() {
     const canvas = document.getElementById('heart-canvas');
     const scratchLayer = document.getElementById('scratch-layer');
