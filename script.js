@@ -16,7 +16,13 @@ function initDefaultData() {
     if (gallery.length === 0) {
         const defaultGallery = [];
         for (let i = 1; i <= 55; i++) {
-            defaultGallery.push(`photos/photo_${i}_2026-07-08_15-13-30.jpg`);
+            let timestamp;
+            if (i <= 4) {
+                timestamp = '2026-07-08_15-13-30';
+            } else {
+                timestamp = '2026-07-08_15-13-31';
+            }
+            defaultGallery.push(`photos/photo_${i}_${timestamp}.jpg`);
         }
         localStorage.setItem('poly_gallery', JSON.stringify(defaultGallery));
     }
@@ -124,6 +130,131 @@ document.getElementById('nav-surprise')?.addEventListener('click', () => {
     setTimeout(initHeartAnimation, 50);
 });
 
+
+function openFullscreen(imageSrc) {
+ 
+    const overlay = document.createElement('div');
+    overlay.className = 'fullscreen-overlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.92);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        animation: fadeIn 0.3s ease;
+        padding: 20px;
+    `;
+    
+ 
+    const closeBtn = document.createElement('button');
+    closeBtn.innerHTML = '✕';
+    closeBtn.style.cssText = `
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        font-size: 24px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        z-index: 10000;
+        backdrop-filter: blur(10px);
+    `;
+    closeBtn.onmouseover = () => {
+        closeBtn.style.background = 'rgba(255, 255, 255, 0.3)';
+        closeBtn.style.transform = 'scale(1.1)';
+    };
+    closeBtn.onmouseout = () => {
+        closeBtn.style.background = 'rgba(255, 255, 255, 0.2)';
+        closeBtn.style.transform = 'scale(1)';
+    };
+    closeBtn.onclick = (e) => {
+        e.stopPropagation();
+        closeFullscreen();
+    };
+    
+ 
+    const img = document.createElement('img');
+    img.src = imageSrc;
+    img.style.cssText = `
+        max-width: 95vw;
+        max-height: 90vh;
+        object-fit: contain;
+        border-radius: 12px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        animation: zoomIn 0.4s ease;
+        user-select: none;
+        -webkit-user-select: none;
+    `;
+    
+ 
+    overlay.appendChild(closeBtn);
+    overlay.appendChild(img);
+    document.body.appendChild(overlay);
+    
+ 
+    overlay.onclick = function(e) {
+        if (e.target === overlay) {
+            closeFullscreen();
+        }
+    };
+    
+  
+    const escHandler = function(e) {
+        if (e.key === 'Escape') {
+            closeFullscreen();
+        }
+    };
+    document.addEventListener('keydown', escHandler);
+    
+
+    overlay._escHandler = escHandler;
+    
+   
+    if (!document.getElementById('fullscreen-styles')) {
+        const style = document.createElement('style');
+        style.id = 'fullscreen-styles';
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            @keyframes zoomIn {
+                from { transform: scale(0.8); opacity: 0; }
+                to { transform: scale(1); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+function closeFullscreen() {
+    const overlay = document.querySelector('.fullscreen-overlay');
+    if (overlay) {
+       
+        if (overlay._escHandler) {
+            document.removeEventListener('keydown', overlay._escHandler);
+        }
+        overlay.style.animation = 'fadeIn 0.2s ease reverse';
+        setTimeout(() => {
+            overlay.remove();
+        }, 200);
+    }
+}
+
 const galleryUpload = document.getElementById('gallery-upload');
 const galleryGrid = document.getElementById('gallery-grid');
 
@@ -195,17 +326,20 @@ function renderGallery() {
         return;
     }
     
-    // Загружаем ВСЕ фото, но с ленивой загрузкой
+   
     images.forEach((imgData, index) => {
         const item = document.createElement('div');
         item.className = 'gallery-item';
         
-        // Для первых 20 фото грузим сразу, для остальных - отложенная загрузка
+     
+        const imgSrc = imgData;
+        
+     
         if (index < 20) {
             item.innerHTML = `<img src="${imgData}" alt="Наше фото" loading="lazy">`;
         } else {
             item.innerHTML = `<img src="${imgData}" alt="Наше фото" loading="lazy" style="background: #f0f0f0;">`;
-            // Добавляем отложенную загрузку с помощью Intersection Observer
+           
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -217,6 +351,15 @@ function renderGallery() {
             });
             observer.observe(item);
         }
+        
+    
+        item.style.cursor = 'pointer';
+        item.addEventListener('click', function() {
+            const img = this.querySelector('img');
+            if (img && img.src) {
+                openFullscreen(img.src);
+            }
+        });
         
         galleryGrid.appendChild(item);
     });
