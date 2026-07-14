@@ -71,8 +71,8 @@ body {
 }
 
 .author-photo {
-    width: 85vw;
-    max-width: 320px;
+    width: 60vw;
+    max-width: 250px;
     height: auto;
     border-radius: 20px;
     box-shadow: var(--shadow);
@@ -195,7 +195,8 @@ body {
 .gallery-wrapper {
     width: 100%;
     max-width: 800px;
-    margin-top: 10px;
+    margin-top: 0;
+    padding-bottom: 80px;
 }
 
 .gallery-grid {
@@ -266,7 +267,8 @@ body {
 .moments-wrapper {
     width: 100%;
     max-width: 500px;
-    margin-top: 10px;
+    margin-top: 0;
+    padding-bottom: 80px;
 }
 
 .moments-list {
@@ -315,6 +317,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 100vh;
+    padding: 20px 20px 40px;
 }
 
 .heart-canvas {
@@ -359,6 +363,7 @@ body {
     box-shadow: 0 15px 40px rgba(255, 77, 109, 0.4);
     z-index: 5;
     user-select: none;
+    margin-bottom: 20px;
 }
 
 #scratch-layer {
@@ -411,6 +416,11 @@ body {
 
     .reaction-text {
         font-size: 1.8rem;
+    }
+    
+    .author-photo {
+        width: 40vw;
+        max-width: 300px;
     }
 }
 
